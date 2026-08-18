@@ -1,92 +1,20 @@
-name: PR Security Review
+name: PR Review Notice
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  workflow_dispatch:
 
 permissions:
   contents: read
   pull-requests: write
 
 jobs:
-  review:
-    if: ${{ secrets.OPENAI_API_KEY != '' }}
+  review-status:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Collect PR diff
-        env:
-          BASE_REF: ${{ github.event.pull_request.base.ref }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      - name: Native Copilot review check
         run: |
-          git fetch origin "$BASE_REF" --depth=1
-          git diff --unified=3 "origin/$BASE_REF"...HEAD > pr.diff
-          echo "--- diff preview ---"
-          sed -n '1,120p' pr.diff
-
-      - name: Review with OpenAI
-        uses: actions/github-script@v7
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const diff = fs.readFileSync('pr.diff', 'utf8');
-            const maxLen = 12000;
-            const safeDiff = diff.length > maxLen ? diff.slice(0, maxLen) : diff;
-            const prompt = `
-            Você é um revisor de segurança de pull requests.
-
-            Sua tarefa:
-            - Resumir em português o que o PR faz.
-            - Identificar sinais de comportamento malicioso ou perigoso.
-            - Explicar por que aceitar o merge poderia ser um problema.
-            - Sinalizar riscos de segurança, dados sensíveis, secrets, execução remota, dependências suspeitas, alterações em workflows, etc.
-            - Se não houver risco claro, diga que parece seguro e por quê.
-
-            Responda em formato de comentário para GitHub, curto, claro e objetivo.
-
-            Informações do PR:
-            - Título: ${context.payload.pull_request.title || 'Sem título'}
-            - Descrição: ${context.payload.pull_request.body || 'Sem descrição'}
-
-            Diff do PR:
-            ${safeDiff}
-            `;
-
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                temperature: 0.2,
-                messages: [
-                  { role: 'system', content: 'Você é um revisor de segurança para GitHub PRs.' },
-                  { role: 'user', content: prompt }
-                ]
-              })
-            });
-
-            const data = await response.json();
-            const review = data?.choices?.[0]?.message?.content;
-
-            if (!review) {
-              throw new Error(`OpenAI response was empty: ${JSON.stringify(data)}`);
-            }
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: review
-            });
+          echo "GitHub Copilot PR review is not available as a public GitHub Action."
+          echo "If this repository includes the native GitHub Copilot code review feature, it will appear directly in the PR UI."
+          echo "This workflow exists only to avoid failing CI while the repository does not have a supported native Copilot review integration configured."
