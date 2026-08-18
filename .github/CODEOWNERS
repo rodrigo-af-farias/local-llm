@@ -1,0 +1,5 @@
+# Code owners for the local-llm repository
+# This file defines who must review and approve pull requests
+
+# All files in the repository
+* @rodrigo-af-farias
