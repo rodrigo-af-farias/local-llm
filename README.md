@@ -21,8 +21,16 @@ Docker images for running open-source LLMs locally using Ollama.
 
 ```bash
 docker run --rm -p 11434:11434 ghcr.io/rodrigo-af-farias/qwen3-4b
+```
 
 ## Run with NVIDIA GPU
 
 ```bash
 docker run --rm --gpus all -p 11434:11434 ghcr.io/rodrigo-af-farias/qwen3-4b
+```
+
+
+
+
+
+
