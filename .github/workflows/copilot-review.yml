@@ -1,0 +1,35 @@
+name: Copilot Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR files
+        id: pr-files
+        run: |
+          # Get the list of changed files
+          git fetch origin pull/${{ github.event.pull_request.number }}/merge
+          git diff --name-only FETCH_HEAD origin/main > /tmp/changed_files.txt
+          cat /tmp/changed_files.txt
+
+      - name: Copilot Code Review
+        uses: github-copilot-resources/copilot-code-review-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          model: gpt-4
