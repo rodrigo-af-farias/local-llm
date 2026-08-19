@@ -26,6 +26,7 @@ jobs:
 
       - name: Read model configuration
         id: config
+        shell: bash
         run: |
           CONFIG_FILE="models/${{ matrix.model }}/config.env"
 
@@ -45,10 +46,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push
+      - name: Build and push image
         uses: docker/build-push-action@v6
         with:
-          context: ./docker
+          context: .
           file: ./docker/Dockerfile
           push: true
           build-args: |

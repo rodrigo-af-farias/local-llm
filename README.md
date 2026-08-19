@@ -1,36 +1,57 @@
 # Local LLM
 
-Docker images for running open-source LLMs locally using Ollama.
+Ambiente para execução local de Large Language Models (LLMs) utilizando
+[Ollama](https://ollama.com/) e Docker.
 
-## Available models
+O projeto disponibiliza uma Web UI estilo ChatGPT para interação com os
+modelos executados localmente.
 
-| Model | Ollama model | Image |
+## Características
+
+- Execução completamente local
+- Docker
+- Ollama
+- Web UI estilo ChatGPT
+- Suporte a CPU
+- Suporte a NVIDIA GPU
+- Seleção explícita do modelo
+- API HTTP do Ollama disponível localmente
+- Cada modelo possui sua própria configuração
+- Imagens Docker independentes por modelo
+
+---
+
+## Modelos disponíveis
+
+| Modelo | Ollama | Imagem Docker |
 |---|---|---|
+| Qwen3 1.7B | `qwen3:1.7b` | `qwen3-1.7b` |
 | Qwen3 4B | `qwen3:4b` | `qwen3-4b` |
 
-## Requirements
+O modelo **não é selecionado automaticamente**.
 
-- Windows, Linux or macOS
-- Docker Desktop / Docker Engine
-- For NVIDIA GPU:
-  - NVIDIA GPU
-  - NVIDIA drivers
-  - Docker configured with NVIDIA Container Toolkit
+O usuário escolhe explicitamente qual modelo deseja executar através do
+script `run-model.ps1`.
 
-## Run with CPU
+---
 
-```bash
-docker run --rm -p 11434:11434 ghcr.io/rodrigo-af-farias/qwen3-4b
-```
+## Requisitos
 
-## Run with NVIDIA GPU
+- Windows, Linux ou macOS
+- Docker Desktop ou Docker Engine
+- PowerShell para utilização dos scripts fornecidos
+- Para utilização de NVIDIA GPU:
+  - GPU NVIDIA compatível
+  - NVIDIA Driver
+  - Docker configurado para utilização da GPU
 
-```bash
-docker run --rm --gpus all -p 11434:11434 ghcr.io/rodrigo-af-farias/qwen3-4b
-```
+---
 
+# Execução
 
+## Qwen3 1.7B
 
+Execute:
 
-
-
+```powershell
+.\scripts\run-model.ps1 qwen3-1.7b

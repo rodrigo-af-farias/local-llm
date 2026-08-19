@@ -8,6 +8,7 @@ $ErrorActionPreference = "Stop"
 $RootPath = Split-Path -Parent $PSScriptRoot
 $ModelPath = Join-Path $RootPath "models\$ModelName"
 $ConfigPath = Join-Path $ModelPath "config.env"
+$DockerfilePath = Join-Path $RootPath "docker\Dockerfile"
 
 if (-not (Test-Path $ModelPath)) {
     throw "Model directory not found: $ModelPath"
@@ -15,6 +16,10 @@ if (-not (Test-Path $ModelPath)) {
 
 if (-not (Test-Path $ConfigPath)) {
     throw "Model configuration not found: $ConfigPath"
+}
+
+if (-not (Test-Path $DockerfilePath)) {
+    throw "Dockerfile not found: $DockerfilePath"
 }
 
 $config = @{}
@@ -59,14 +64,15 @@ Write-Host " Local LLM - Building Model"
 Write-Host "========================================"
 Write-Host "Model:       $Model"
 Write-Host "Image:       $ImageName"
+Write-Host "Context:     $RootPath"
 Write-Host "========================================"
 Write-Host ""
 
 docker build `
     --build-arg "MODEL=$Model" `
     -t "$ImageName" `
-    -f "$RootPath\docker\Dockerfile" `
-    "$RootPath\docker"
+    -f "$DockerfilePath" `
+    "$RootPath"
 
 if ($LASTEXITCODE -ne 0) {
     throw "Docker build failed."

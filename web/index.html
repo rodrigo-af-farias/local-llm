@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local LLM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app">
+
+        <header class="header">
+            <div class="brand">
+                <div class="logo">L</div>
+                <div>
+                    <div class="title">Local LLM</div>
+                    <div id="modelName" class="model">Carregando modelo...</div>
+                </div>
+            </div>
+
+            <button id="newChatButton" class="new-chat">
+                + Nova conversa
+            </button>
+        </header>
+
+        <main id="messages" class="messages">
+            <div class="welcome">
+                <h1>Como posso ajudar?</h1>
+                <p>
+                    Esta conversa está sendo executada localmente
+                    através do Ollama.
+                </p>
+            </div>
+        </main>
+
+        <footer class="input-area">
+            <div class="input-container">
+                <textarea id="prompt" placeholder="Envie uma mensagem..." rows="1"></textarea>
+
+                <button id="sendButton">
+                    ➤
+                </button>
+            </div>
+
+            <div id="modelDisclaimer" class="disclaimer">
+                Executando localmente
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
