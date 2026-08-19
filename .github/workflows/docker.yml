@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         model:
+          - qwen3-1.7b
           - qwen3-4b
 
     steps:
