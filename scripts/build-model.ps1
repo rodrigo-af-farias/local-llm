@@ -11,15 +11,15 @@ $ConfigPath = Join-Path $ModelPath "config.env"
 $DockerfilePath = Join-Path $RootPath "docker\Dockerfile"
 
 if (-not (Test-Path $ModelPath)) {
-    throw "Model directory not found: $ModelPath"
+    throw "Diretório do modelo não encontrado: $ModelPath"
 }
 
 if (-not (Test-Path $ConfigPath)) {
-    throw "Model configuration not found: $ConfigPath"
+    throw "Arquivo de configuração do modelo não encontrado: $ConfigPath"
 }
 
 if (-not (Test-Path $DockerfilePath)) {
-    throw "Dockerfile not found: $DockerfilePath"
+    throw "Dockerfile não encontrado: $DockerfilePath"
 }
 
 $config = @{}
@@ -38,7 +38,7 @@ Get-Content $ConfigPath | ForEach-Object {
     $parts = $line.Split("=", 2)
 
     if ($parts.Count -ne 2) {
-        throw "Invalid configuration line: $line"
+        throw "Linha de configuração inválida: $line"
     }
 
     $key = $parts[0].Trim()
@@ -48,11 +48,11 @@ Get-Content $ConfigPath | ForEach-Object {
 }
 
 if (-not $config.ContainsKey("MODEL")) {
-    throw "MODEL is not defined in $ConfigPath"
+    throw "MODEL nao definido em $ConfigPath"
 }
 
 if (-not $config.ContainsKey("IMAGE_NAME")) {
-    throw "IMAGE_NAME is not defined in $ConfigPath"
+    throw "IMAGE_NAME nao definida em $ConfigPath"
 }
 
 $Model = $config["MODEL"]
@@ -60,11 +60,11 @@ $ImageName = $config["IMAGE_NAME"]
 
 Write-Host ""
 Write-Host "========================================"
-Write-Host " Local LLM - Building Model"
+Write-Host " local llm - Construindo modelo"
 Write-Host "========================================"
-Write-Host "Model:       $Model"
-Write-Host "Image:       $ImageName"
-Write-Host "Context:     $RootPath"
+Write-Host "Modelo:       $Model"
+Write-Host "Imagem:       $ImageName"
+Write-Host "Contexto:     $RootPath"
 Write-Host "========================================"
 Write-Host ""
 
@@ -75,11 +75,11 @@ docker build `
     "$RootPath"
 
 if ($LASTEXITCODE -ne 0) {
-    throw "Docker build failed."
+    throw "Falha no build do docker."
 }
 
 Write-Host ""
 Write-Host "========================================"
-Write-Host " Build completed successfully!"
-Write-Host " Image: $ImageName"
+Write-Host " Build concluído com sucesso!"
+Write-Host " Imagem: $ImageName"
 Write-Host "========================================"

@@ -3,15 +3,15 @@
 set -e
 
 echo "========================================"
-echo " Local LLM - Starting"
+echo " local llm - iniciando"
 echo "========================================"
 
 if [ -z "$MODEL" ]; then
-    echo "ERROR: MODEL environment variable is not set."
+    echo "ERRO: A variável de ambiente MODEL não foi definida."
     exit 1
 fi
 
-echo "Model:       $MODEL"
+echo "Modelo:       $MODEL"
 echo "Ollama:      http://127.0.0.1:11434"
 echo "Web UI:      http://0.0.0.0:3000"
 echo "========================================"
@@ -19,7 +19,7 @@ echo ""
 
 cleanup() {
     echo ""
-    echo "Stopping Local LLM..."
+    echo "Parando local llm..."
 
     if [ -n "$NGINX_PID" ] && kill -0 "$NGINX_PID" 2>/dev/null; then
         kill "$NGINX_PID" 2>/dev/null || true
@@ -35,36 +35,36 @@ cleanup() {
 
 trap cleanup INT TERM EXIT
 
-echo "Starting Ollama..."
+echo "Iniciando ollama..."
 
 ollama serve &
 OLLAMA_PID=$!
 
-echo "Waiting for Ollama..."
+echo "Aguardando ollama..."
 
 until ollama list >/dev/null 2>&1; do
     if ! kill -0 "$OLLAMA_PID" 2>/dev/null; then
-        echo "ERROR: Ollama stopped unexpectedly."
+        echo "ERRO: Ollama parou inesperadamente."
         exit 1
     fi
 
     sleep 1
 done
 
-echo "Ollama is ready."
+echo "Ollama está pronto."
 
 echo ""
-echo "Starting Web UI..."
+echo "Iniciando web ui..."
 
 nginx -g "daemon off;" &
 NGINX_PID=$!
 
-echo "Web UI is ready."
+echo "Web ui está pronto."
 echo ""
 echo "========================================"
-echo " Local LLM is running"
+echo " local llm está rodando"
 echo "========================================"
-echo "Model:       $MODEL"
+echo "Modelo:       $MODEL"
 echo "Web UI:      http://localhost:3000"
 echo "API:         http://localhost:11434"
 echo "========================================"
@@ -72,12 +72,12 @@ echo ""
 
 while true; do
     if ! kill -0 "$OLLAMA_PID" 2>/dev/null; then
-        echo "ERROR: Ollama stopped unexpectedly."
+        echo "ERRO: Ollama parou inesperadamente."
         exit 1
     fi
 
     if ! kill -0 "$NGINX_PID" 2>/dev/null; then
-        echo "ERROR: Nginx stopped unexpectedly."
+        echo "ERRO: Nginx parou inesperadamente."
         exit 1
     fi
 
