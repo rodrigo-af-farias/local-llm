@@ -138,7 +138,7 @@ Cada modelo é distribuído como uma única imagem Docker.
 
 ```text
 ┌──────────────────────────────────────────┐
-│          Docker Image                   │
+│          Docker Image                    │
 │                                          │
 │  ┌──────────────┐                        │
 │  │   Ollama     │                        │
