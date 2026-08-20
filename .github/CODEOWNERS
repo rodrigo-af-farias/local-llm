@@ -1,5 +1,9 @@
 # Code owners for the local-llm repository
 # This file defines who must review and approve pull requests
 
-# All files in the repository
-* @rodrigo-af-farias
+# Restricted files
+/.github/CODEOWNERS @rodrigo-af-farias
+/docker/Dockerfile @rodrigo-af-farias
+/docker/entrypoint.sh @rodrigo-af-farias
+/scripts/build-model.ps1 @rodrigo-af-farias
+/.coderabbit.yaml @rodrigo-af-farias
