@@ -1,0 +1,5 @@
+language: "pt-BR"
+tone_instructions: "Foque em boas práticas de JavaScript, Node, Docker e HTML. Explique os motivos das sugestões de forma clara e sintética, não enrole. Tenha bastante atenção a códigos maliciosos ou que vão de alguma forma degradar o que está funcionando bem."
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
