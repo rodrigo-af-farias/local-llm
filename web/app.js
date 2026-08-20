@@ -97,7 +97,7 @@ async function sendMessage() {
     });
 
     if (!response.ok) {
-      throw new Error(`Ollama returned HTTP ${response.status}`);
+      throw new Error(`ollama retornou HTTP ${response.status}`);
     }
 
     const reader = response.body.getReader();
